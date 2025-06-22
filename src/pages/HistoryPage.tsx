@@ -1,7 +1,7 @@
 // src/pages/HistoryPage.tsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useTitle } from "../hooks/useTitle";
 interface HistoryEntry {
   _id: string;
   lat: number;
@@ -18,6 +18,7 @@ interface HistoryEntry {
 const API_BASE = import.meta.env.VITE_MAIN_API || "http://localhost:3000";
 
 const HistoryPage: React.FC = () => {
+  useTitle("History | OpenWeatherApi");
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
   const [entries, setEntries] = useState<HistoryEntry[]>([]);

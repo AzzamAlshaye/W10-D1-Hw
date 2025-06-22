@@ -1,6 +1,7 @@
 // src/pages/WeatherPage.tsx
 import React, { useState } from "react";
 import axios from "axios";
+import { useTitle } from "../hooks/useTitle";
 
 interface WeatherPayload {
   temperature: number;
@@ -19,6 +20,7 @@ const WeatherPage: React.FC = () => {
   const [weather, setWeather] = useState<WeatherPayload | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  useTitle("Weather | OpenWeatherApi");
 
   const token = localStorage.getItem("token");
 

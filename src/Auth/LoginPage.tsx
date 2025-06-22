@@ -10,7 +10,7 @@ import type { SignInDTO } from "../models/Auth.model";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
-  useTitle("Login | Tuwaiq");
+  useTitle("Login | OpenWeatherApi");
   const { login } = useAuth();
   const initialValues: SignInDTO = { email: "", password: "" };
 
@@ -73,7 +73,7 @@ export default function LoginPage() {
                   type="email"
                   id="email"
                   name="email"
-                  placeholder="you@tuwaiq.edu.sa"
+                  placeholder="you@example.edu.sa"
                   className="w-full px-4 py-2 bg-neutral-100 text-neutral-800 border border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#eb6f4b]"
                 />
                 <ErrorMessage

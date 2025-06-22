@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 type RegisterFormValues = SignUpDTO & { confirmPassword: string };
 
 export default function RegisterPage() {
-  useTitle("Register | Tuwaiq");
+  useTitle("Register | OpenWeatherApi");
   const { login } = useAuth();
 
   const initialValues: RegisterFormValues = {
@@ -73,7 +73,7 @@ export default function RegisterPage() {
 
       <div className="bg-neutral-800 shadow-lg rounded-3xl max-w-md w-full p-8">
         <h2 className="text-2xl font-bold text-[#eb6f4b] text-center mb-6">
-          Create Student Account
+          Create Account
         </h2>
 
         <Formik
@@ -88,13 +88,13 @@ export default function RegisterPage() {
                   htmlFor="email"
                   className="block text-neutral-100 font-medium mb-1"
                 >
-                  Email Address (must end with “@tuwaiq.edu.sa”)
+                  Email Address
                 </label>
                 <Field
                   type="email"
                   id="email"
                   name="email"
-                  placeholder="you@tuwaiq.edu.sa"
+                  placeholder="you@example.edu.sa"
                   className="w-full px-4 py-2 bg-neutral-100 text-neutral-800 border border-neutral-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#eb6f4b]"
                 />
                 <ErrorMessage

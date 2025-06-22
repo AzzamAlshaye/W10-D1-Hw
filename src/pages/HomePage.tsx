@@ -1,9 +1,11 @@
 // src/pages/HomeScreen.jsx
 import { Link } from "react-router";
+import { useTitle } from "../hooks/useTitle";
 
 export default function HomeScreen() {
   const token = localStorage.getItem("token");
   const isAuth = Boolean(token);
+  useTitle("Home | OpenWeatherApi");
   const weatherPath = "/weather";
 
   return (
