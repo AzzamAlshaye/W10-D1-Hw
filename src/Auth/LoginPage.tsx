@@ -5,7 +5,7 @@ import type { FormikHelpers } from "formik";
 import { Link } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import { useTitle } from "../hooks/useTitle";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../service/auth.service";
 import type { SignInDTO } from "../models/Auth.model";
 import "react-toastify/dist/ReactToastify.css";
 

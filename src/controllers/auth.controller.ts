@@ -1,5 +1,5 @@
 // src/services/authService.ts
-import apiClient from "./ApiClient";
+import apiClient from "../service/ApiClient";
 import type {
   SignUpDTO,
   SignInDTO,

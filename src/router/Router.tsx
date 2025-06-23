@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { AuthProvider } from "../contexts/AuthContext";
+import { AuthProvider } from "../service/auth.service";
 
 // Layouts
 function PublicLayout() {

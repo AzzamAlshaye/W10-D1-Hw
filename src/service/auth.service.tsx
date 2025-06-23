@@ -4,7 +4,7 @@ import type { FC, ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { authService } from "../service/AuthService";
+import { authService } from "../controllers/auth.controller";
 import type { SignInDTO } from "../models/Auth.model";
 
 interface AuthContextType {
@@ -54,6 +54,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       navigate("/");
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Login failed");
+      throw err; // ← re-throw so page’s catch skips the success toast
     }
   };
 
@@ -61,7 +62,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     try {
       await authService.signout();
     } catch (err: any) {
-      // If token expired, backend returns 401—treat as successful logout
+      // If token expired, treat as successful logout
       if (err.response?.status !== 401) {
         toast.error(err.response?.data?.message || "Logout failed");
         return;

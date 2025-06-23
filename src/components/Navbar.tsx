@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../service/auth.service";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

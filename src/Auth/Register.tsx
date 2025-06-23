@@ -4,8 +4,8 @@ import type { FormikHelpers } from "formik";
 import { Link } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import { useTitle } from "../hooks/useTitle";
-import { useAuth } from "../contexts/AuthContext";
-import { authService } from "../service/AuthService";
+import { useAuth } from "../service/auth.service";
+import { authService } from "../controllers/auth.controller";
 import type { SignUpDTO, AuthResponse } from "../models/Auth.model";
 import "react-toastify/dist/ReactToastify.css";
 

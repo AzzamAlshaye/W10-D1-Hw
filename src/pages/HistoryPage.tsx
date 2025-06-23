@@ -2,6 +2,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useTitle } from "../hooks/useTitle";
+import {
+  WiThermometer,
+  WiHumidity,
+  WiCloud,
+  WiStrongWind,
+  WiDirectionUp,
+} from "react-icons/wi";
+import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
+
 interface HistoryEntry {
   _id: string;
   lat: number;
@@ -19,19 +28,18 @@ const API_BASE = import.meta.env.VITE_MAIN_API || "http://localhost:3000";
 
 const HistoryPage: React.FC = () => {
   useTitle("History | OpenWeatherApi");
-  const [limit, setLimit] = useState(10);
-  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState<number>(10);
+  const [skip, setSkip] = useState<number>(0);
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
   const [total, setTotal] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || "";
 
   const fetchEntries = async () => {
     setError("");
-    setTotal(null);
     setLoading(true);
     try {
       const { data } = await axios.get<HistoryEntry[]>(`${API_BASE}/history`, {
@@ -69,7 +77,6 @@ const HistoryPage: React.FC = () => {
     fetchEntries();
   }, []);
 
-  // filter entries by searchTerm across conditions, lat/lon
   const filteredEntries = entries.filter((e) => {
     const term = searchTerm.toLowerCase();
     return (
@@ -82,9 +89,10 @@ const HistoryPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center p-4">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-6">
+      <div className="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-6">
         <h1 className="text-2xl font-bold mb-6 text-center">History</h1>
 
+        {/* Controls */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium">Limit</label>
@@ -110,7 +118,7 @@ const HistoryPage: React.FC = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by condition, lat, lon, source"
+              placeholder="condition, lat, lon, source"
               className="mt-1 w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
@@ -145,41 +153,82 @@ const HistoryPage: React.FC = () => {
           </div>
         )}
 
-        <div className="space-y-6">
+        {/* Results */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEntries.map((e) => (
             <div
               key={e._id}
-              className="p-4 bg-gray-50 rounded-lg border border-gray-200"
+              className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
             >
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>
-                  <strong>Lat:</strong> {e.lat}, <strong>Lon:</strong> {e.lon}
-                </span>
-                <span>
+              {/* Header: coords & time */}
+              <div className="flex justify-between items-center mb-4 text-gray-600 text-sm">
+                <div className="flex items-center">
+                  <FaMapMarkerAlt className="mr-1" />
+                  {e.lat}, {e.lon}
+                </div>
+                <div className="flex items-center">
+                  <FaClock className="mr-1" />
                   {new Date(e.requestedAt).toLocaleString("en-US", {
                     hour12: false,
                   })}
-                </span>
-              </div>
-
-              <div className="mt-2 grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <strong>Temp:</strong> {e.temperature} °C
-                </div>
-                <div>
-                  <strong>Humidity:</strong> {e.humidity}%
-                </div>
-                <div>
-                  <strong>Conditions:</strong> {e.conditions}
-                </div>
-                <div>
-                  <strong>Wind:</strong> {e.windSpeed} m/s {e.windDirection}
                 </div>
               </div>
 
-              <div className="mt-2 italic text-sm text-right">
+              {/* Metrics */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="flex items-center">
+                  <WiThermometer className="text-2xl text-red-500 mr-2" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Temp</p>
+                    <p className="text-lg font-bold">{e.temperature}°C</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center">
+                  <WiHumidity className="text-2xl text-blue-500 mr-2" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">
+                      Humidity
+                    </p>
+                    <p className="text-lg font-bold">{e.humidity}%</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center col-span-2">
+                  <WiCloud className="text-2xl text-gray-400 mr-2" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">
+                      Conditions
+                    </p>
+                    <p className="text-lg font-bold capitalize">
+                      {e.conditions}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center">
+                  <WiStrongWind className="text-2xl text-teal-500 mr-2" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Wind</p>
+                    <p className="text-lg font-bold">{e.windSpeed} m/s</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center">
+                  <WiDirectionUp className="text-2xl text-yellow-500 mr-2" />
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">
+                      Direction
+                    </p>
+                    <p className="text-lg font-bold">{e.windDirection}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Source */}
+              <p className="text-xs italic text-right text-gray-500">
                 Source: {e.source === "cache" ? "Cache" : "OpenWeatherMap"}
-              </div>
+              </p>
             </div>
           ))}
         </div>
